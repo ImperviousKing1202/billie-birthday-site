@@ -1,0 +1,2720 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Billie Birthday Gift</title>
+  <style>
+    :root {
+      --baby-blue: #dff4ff;
+      --light-blue: #bfe8ff;
+      --sky-blue: #87ceff;
+      --soft-blue: #5db8ff;
+      --blue: #2f6bff;
+      --deep-blue: #1b4fd6;
+      --text-dark: #10325f;
+      --text-light: #f8fcff;
+      --panel-bg: linear-gradient(180deg, rgba(223, 244, 255, 0.96), rgba(135, 206, 255, 0.92));
+      --panel-border: rgba(47, 107, 255, 0.18);
+      --shadow: 0 20px 50px rgba(31, 92, 180, 0.16);
+      --player-bg: rgba(255, 255, 255, 0.5);
+      --player-border: rgba(47, 107, 255, 0.16);
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      min-height: 100%;
+      font-family: Inter, Arial, sans-serif;
+      background: linear-gradient(135deg, var(--baby-blue), var(--light-blue), var(--sky-blue));
+      color: var(--text-dark);
+      scroll-behavior: smooth;
+    }
+
+    body {
+      padding: 24px;
+      overflow-x: hidden;
+      cursor: none;
+    }
+
+    /* ===== CUSTOM CURSOR ===== */
+    .cursor {
+      position: fixed;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: radial-gradient(circle, #ffffff, var(--soft-blue));
+      pointer-events: none;
+      z-index: 9999;
+      transform: translate(-50%, -50%);
+      box-shadow:
+        0 0 10px rgba(93,184,255,0.6),
+        0 0 20px rgba(47,107,255,0.4);
+      transition: transform 0.08s ease;
+    }
+
+    .cursor.active {
+      transform: translate(-50%, -50%) scale(1.6);
+      box-shadow:
+        0 0 20px rgba(93,184,255,0.9),
+        0 0 40px rgba(47,107,255,0.7);
+    }
+
+    .cursor-trail {
+      position: fixed;
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9998;
+      transform: translate(-50%, -50%);
+      background: radial-gradient(circle, rgba(93,184,255,0.25), transparent 70%);
+      filter: blur(20px);
+    }
+
+    /* ===== PAGE 1 ===== */
+    .page {
+      min-height: calc(100vh - 48px);
+      margin-bottom: 28px;
+    }
+
+    /* ===== BACK TO TOP BUTTON ===== */
+    #backToTopBtn {
+      position: fixed;
+      right: 20px;
+      bottom: 20px;
+      z-index: 9999;
+      background: linear-gradient(135deg, var(--soft-blue), var(--blue));
+      color: white;
+      border: none;
+      border-radius: 999px;
+      padding: 10px 14px;
+      box-shadow: 0 10px 20px rgba(47, 107, 255, 0.35);
+      cursor: pointer;
+      font-weight: 700;
+      opacity: 0.85;
+      transition: opacity 0.2s ease, transform 0.2s ease;
+    }
+
+    #backToTopBtn:hover {
+      opacity: 1;
+      transform: translateY(-2px);
+    }
+
+
+    /* Hide page 2 until Start is clicked */
+    #page2 {
+      display: none;
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    #page2.show {
+      display: block;
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Hide page 3 until Next is clicked */
+    #page3 {
+      display: none;
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    #page3.show {
+      display: block;
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Hide page 4 until Next is clicked */
+    #page4 {
+      display: none;
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    #page4.show {
+      display: block;
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Hide page 5 until Next is clicked */
+    #page5 {
+      display: none;
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    #page5.show {
+      display: block;
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Hide page 6 until Next is clicked */
+    #page6 {
+      display: none;
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    #page6.show {
+      display: block;
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .site-shell {
+      min-height: calc(100vh - 48px);
+      display: grid;
+      grid-template-columns: 1fr 3fr;
+      border-radius: 32px;
+      overflow: hidden;
+      background: rgba(255,255,255,0.4);
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(255,255,255,0.6);
+    }
+
+    .content-panel {
+      position: relative;
+      background: var(--panel-bg);
+      padding: 48px 32px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 18px;
+    }
+
+    .content-panel::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at top left, rgba(255,255,255,0.6), transparent 35%),
+        radial-gradient(circle at bottom right, rgba(47,107,255,0.14), transparent 30%);
+      pointer-events: none;
+    }
+
+    .content-inner {
+      position: relative;
+      z-index: 1;
+      animation: fadeUp 1s ease forwards;
+      text-align: center;
+    }
+
+    .eyebrow {
+      margin: 0 0 8px;
+      color: var(--deep-blue);
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      font-size: 0.78rem;
+      font-weight: 700;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(2.4rem, 5vw, 4.8rem);
+      line-height: 0.95;
+      letter-spacing: -0.05em;
+      color: var(--deep-blue);
+    }
+
+    .accent {
+      color: var(--blue);
+    }
+
+    .accent-special {
+      position: relative;
+      display: inline-block;
+      padding: 0 0.08em 0.12em;
+      cursor: pointer;
+      background: linear-gradient(90deg, #ffffff 0%, var(--baby-blue) 18%, var(--soft-blue) 45%, var(--blue) 72%, #ffffff 100%);
+      background-size: 220% 100%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      filter: drop-shadow(0 0 10px rgba(47, 107, 255, 0.18));
+      animation: nameShimmer 4s linear infinite, nameFloat 3.2s ease-in-out infinite;
+      transform-style: preserve-3d;
+      transition: transform 0.18s ease, filter 0.18s ease;
+    }
+
+    .accent-text {
+      display: inline-block;
+      min-width: 8.5ch;
+      border-right: 2px solid rgba(47, 107, 255, 0.65);
+      white-space: nowrap;
+      overflow: hidden;
+      animation: caretBlink 0.8s step-end infinite;
+    }
+
+    .accent-special.done .accent-text {
+      border-right-color: transparent;
+    }
+
+    .accent-special::before {
+      content: attr(data-text);
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      color: rgba(47, 107, 255, 0.16);
+      filter: blur(10px);
+      transform: translateY(4px) scale(1.02);
+      pointer-events: none;
+    }
+
+    .accent-special::after {
+      content: "";
+      position: absolute;
+      left: -4%;
+      right: -4%;
+      bottom: -0.08em;
+      height: 0.18em;
+      background: linear-gradient(90deg, transparent, rgba(93, 184, 255, 0.75), transparent);
+      filter: blur(7px);
+      opacity: 0.65;
+      pointer-events: none;
+      animation: underlineWave 2.8s ease-in-out infinite;
+    }
+
+    .sparkles {
+      position: absolute;
+      inset: -0.4em -0.5em -0.3em -0.5em;
+      pointer-events: none;
+    }
+
+    .sparkle {
+      position: absolute;
+      font-size: 0.34em;
+      line-height: 1;
+      color: #ffffff;
+      text-shadow: 0 0 12px rgba(47,107,255,0.5), 0 0 20px rgba(135,206,255,0.45);
+      opacity: 0;
+      animation: sparkleTwinkle 2.4s ease-in-out infinite;
+    }
+
+    .sparkle.s1 { top: 4%; left: 6%; animation-delay: 0s; }
+    .sparkle.s2 { top: -8%; right: 14%; animation-delay: 0.45s; }
+    .sparkle.s3 { top: 35%; right: -2%; animation-delay: 0.9s; }
+    .sparkle.s4 { bottom: 4%; left: -1%; animation-delay: 1.35s; }
+    .sparkle.s5 { bottom: -10%; right: 28%; animation-delay: 1.8s; }
+
+    .subtitle {
+      margin: 0 auto;
+      font-size: 1.05rem;
+      line-height: 1.7;
+      color: #204a80;
+      max-width: 28ch;
+    }
+
+    .button-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 10px;
+      justify-content: center;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 120px;
+      border-radius: 999px;
+      padding: 13px 20px;
+      text-decoration: none;
+      font-weight: 700;
+      transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+      border: none;
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 0.98rem;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--soft-blue), var(--blue));
+      color: var(--text-light);
+      box-shadow: 0 12px 28px rgba(47, 107, 255, 0.22);
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+    }
+
+    .mini-note {
+      margin-top: 6px;
+      color: #34639f;
+      font-size: 0.9rem;
+      opacity: 0.9;
+    }
+
+    .music-player {
+      margin: 18px auto 0;
+      width: min(100%, 320px);
+      background: var(--player-bg);
+      border: 1px solid var(--player-border);
+      border-radius: 24px;
+      padding: 18px 16px 16px;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 12px 30px rgba(47, 107, 255, 0.1);
+      text-align: left;
+    }
+
+    .player-label {
+      margin: 0 0 6px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #4d79af;
+    }
+
+    .track-title {
+      margin: 0;
+      font-size: 1rem;
+      font-weight: 800;
+      color: var(--deep-blue);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .track-subtitle {
+      margin: 4px 0 0;
+      font-size: 0.9rem;
+      color: #34639f;
+    }
+
+    .progress-wrap {
+      margin-top: 14px;
+    }
+
+    .progress-bar {
+      width: 100%;
+      height: 8px;
+      border-radius: 999px;
+      background: rgba(47, 107, 255, 0.12);
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      width: 0%;
+      height: 100%;
+      background: linear-gradient(90deg, var(--soft-blue), var(--blue));
+      border-radius: inherit;
+      transition: width 0.1s linear;
+    }
+
+    .time-row {
+      margin-top: 8px;
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.8rem;
+      color: #4d79af;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .player-controls {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .control-btn {
+      width: 46px;
+      height: 46px;
+      border: none;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.8);
+      color: var(--deep-blue);
+      font-size: 1rem;
+      font-weight: 800;
+      cursor: pointer;
+      box-shadow: 0 8px 18px rgba(47, 107, 255, 0.12);
+      transition: transform 0.2s ease, background 0.2s ease;
+    }
+
+    .control-btn.main {
+      width: 54px;
+      height: 54px;
+      background: linear-gradient(135deg, var(--soft-blue), var(--blue));
+      color: white;
+    }
+
+    .control-btn:hover {
+      transform: translateY(-2px) scale(1.04);
+    }
+
+    .playlist-note {
+      margin: 12px 0 0;
+      font-size: 0.82rem;
+      color: #4670a4;
+      text-align: center;
+    }
+
+    .slideshow-panel {
+      position: relative;
+      min-height: 100%;
+      background: linear-gradient(180deg, var(--light-blue), var(--sky-blue));
+      overflow: hidden;
+    }
+
+    .slideshow-panel::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(223,244,255,0.05), rgba(47,107,255,0.12));
+      pointer-events: none;
+      z-index: 2;
+    }
+
+    .bg-slide {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      animation: heroSlideShow 15s infinite;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .bg-slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      object-position: center;
+      display: block;
+      filter: drop-shadow(0 8px 24px rgba(0, 0, 0, 0.12));
+    }
+
+    .bg-slide:nth-child(1) { animation-delay: 0s; }
+    .bg-slide:nth-child(2) { animation-delay: 3s; }
+    .bg-slide:nth-child(3) { animation-delay: 6s; }
+    .bg-slide:nth-child(4) { animation-delay: 9s; }
+    .bg-slide:nth-child(5) { animation-delay: 12s; }
+
+    /* ===== PAGE 2 ===== */
+    .book-page {
+      min-height: calc(100vh - 48px);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      border-radius: 32px;
+      overflow: hidden;
+      background: rgba(255,255,255,0.4);
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(255,255,255,0.6);
+    }
+
+    .page-left {
+      position: relative;
+      padding: 42px 30px;
+      background: linear-gradient(180deg, rgba(223, 244, 255, 0.96), rgba(176, 226, 255, 0.92));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .page-left::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at top left, rgba(255,255,255,0.6), transparent 30%),
+        radial-gradient(circle at bottom right, rgba(47,107,255,0.14), transparent 28%);
+      pointer-events: none;
+    }
+
+    .poem-box {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 760px;
+      background: rgba(255,255,255,0.42);
+      border: 1px solid rgba(47,107,255,0.12);
+      border-radius: 28px;
+      padding: 26px 26px 24px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 14px 32px rgba(47,107,255,0.08);
+    }
+
+    .poem-title {
+      margin: 0 0 18px;
+      font-size: clamp(1.8rem, 3vw, 2.8rem);
+      line-height: 1.05;
+      color: var(--deep-blue);
+      text-align: center;
+    }
+
+    .poem-columns {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 28px;
+      align-items: start;
+    }
+
+    .poem-column {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .poem-stanza {
+      margin: 0;
+      white-space: pre-line;
+      font-size: 0.97rem;
+      line-height: 1.45;
+      color: #1c497d;
+    }
+
+    .page-right {
+      position: relative;
+      padding: 34px 26px;
+      background: linear-gradient(180deg, rgba(191, 232, 255, 0.82), rgba(135, 206, 255, 0.72));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .page-right::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(255,255,255,0.14), rgba(47,107,255,0.08));
+      pointer-events: none;
+    }
+
+    .right-center {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 680px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+    }
+
+    .quotes-heading {
+      margin: 0;
+      text-align: center;
+      color: var(--deep-blue);
+      font-size: 1.35rem;
+    }
+
+    .quotes-subheading {
+      margin: -4px 0 4px;
+      text-align: center;
+      color: #2d619f;
+      font-size: 0.96rem;
+    }
+
+    .manual-gallery {
+      position: relative;
+      width: 100%;
+      max-width: 620px;
+      min-height: 520px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .quote-card {
+      width: 100%;
+      max-width: 620px;
+      background: rgba(255,255,255,0.52);
+      border: 1px solid rgba(47,107,255,0.12);
+      border-radius: 28px;
+      padding: 18px 18px 20px;
+      box-shadow: 0 16px 36px rgba(47,107,255,0.1);
+      backdrop-filter: blur(10px);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .quote-photo {
+      width: 100%;
+      border-radius: 22px;
+      overflow: hidden;
+      background: rgba(255,255,255,0.35);
+      aspect-ratio: 16 / 10;
+      position: relative;
+    }
+
+    .quote-photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+      background: linear-gradient(180deg, rgba(255,255,255,0.24), rgba(135,206,255,0.18));
+    }
+
+    .album-cover {
+      width: 120px;
+      height: 120px;
+      border-radius: 20px;
+      overflow: hidden;
+      margin: 0 0 12px;
+      background: rgba(255,255,255,0.35);
+      box-shadow: 0 10px 24px rgba(47,107,255,0.08);
+    }
+
+    .album-cover img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .albums-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      width: 100%;
+      max-width: none;
+      padding: 0 20px;
+    }
+
+    .album-card {
+      background: rgba(255,255,255,0.52);
+      border: 1px solid rgba(47, 107, 255, 0.12);
+      border-radius: 28px;
+      padding: 16px;
+      box-shadow: 0 16px 36px rgba(47, 107, 255, 0.1);
+      backdrop-filter: blur(10px);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    .album-description {
+      font-size: 0.75rem;
+      line-height: 1.4;
+      color: #1f4f88;
+      margin: 8px 0 10px;
+    }
+
+    .album-year {
+      font-size: 0.8rem;
+      color: #4d79af;
+      margin: 0 0 4px;
+      font-weight: 600;
+    }
+
+    .album-name {
+      font-size: 0.9rem;
+      margin: 0 0 6px;
+      line-height: 1.2;
+      color: #1b4fd6;
+      font-weight: 700;
+    }
+
+    .album-mood {
+      margin: 0 0 6px;
+      font-size: 0.75rem;
+      color: #34639f;
+    }
+
+    .album-favorite {
+      font-size: 0.7rem;
+      color: #4d79af;
+      text-align: center;
+    }
+
+    .albums-title,
+    .albums-copy,
+    .albums-note {
+      text-align: center;
+    }
+
+    .albums-copy,
+    .albums-note p {
+      margin-left: auto;
+      margin-right: auto;
+      max-width: none;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .image-nav {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 22%;
+      border: none;
+      background: transparent;
+      color: rgba(16, 50, 95, 0.55);
+      font-size: 2.4rem;
+      cursor: pointer;
+      z-index: 2;
+      transition: background 0.2s ease, color 0.2s ease;
+      display: flex;
+      align-items: center;
+    }
+
+    .image-nav:hover {
+      background: rgba(255,255,255,0.08);
+      color: rgba(16, 50, 95, 0.9);
+    }
+
+    .image-nav.prev {
+      left: 0;
+      justify-content: flex-start;
+      padding-left: 10px;
+    }
+
+    .image-nav.next {
+      right: 0;
+      justify-content: flex-end;
+      padding-right: 10px;
+    }
+
+    .quote-caption {
+      margin: 16px 8px 4px;
+      text-align: center;
+      font-size: 1rem;
+      line-height: 1.7;
+      color: #1f4f88;
+      min-height: 108px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .page2-nav,
+    .page3-nav,
+    .page4-nav,
+    .page5-nav {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      padding: 18px 0;
+      margin-top: 10px;
+    }
+
+    .page2-nav .btn,
+    .page3-nav .btn,
+    .page4-nav .btn,
+    .page5-nav .btn {
+      min-width: 140px;
+      background: rgba(47, 107, 255, 0.16);
+      color: #1b4fd6;
+      border: 1px solid rgba(47, 107, 255, 0.5);
+      box-shadow: none;
+    }
+
+    .page2-nav .btn:hover,
+    .page3-nav .btn:hover,
+    .page4-nav .btn:hover,
+    .page5-nav .btn:hover {
+      background: rgba(47, 107, 255, 0.26);
+    }
+
+    .quote-dots {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    .quote-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      border: none;
+      background: rgba(47,107,255,0.24);
+      cursor: pointer;
+      transition: transform 0.2s ease, background 0.2s ease;
+    }
+
+    .quote-dot.active {
+      background: var(--blue);
+      transform: scale(1.15);
+    }
+
+    @keyframes heroSlideShow {
+      0% { opacity: 0; }
+      5% { opacity: 1; }
+      20% { opacity: 1; }
+      25% { opacity: 0; }
+      100% { opacity: 0; }
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(24px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes caretBlink {
+      0%, 49% { border-right-color: rgba(47, 107, 255, 0.7); }
+      50%, 100% { border-right-color: transparent; }
+    }
+
+    @keyframes nameShimmer {
+      0% { background-position: 0% 50%; }
+      100% { background-position: 200% 50%; }
+    }
+
+    @keyframes nameFloat {
+      0%, 100% { transform: translateY(0) rotate(-0.8deg); }
+      50% { transform: translateY(-2px) rotate(0.8deg); }
+    }
+
+    @keyframes underlineWave {
+      0%, 100% { transform: scaleX(0.92) translateY(0); opacity: 0.45; }
+      50% { transform: scaleX(1.06) translateY(1px); opacity: 0.85; }
+    }
+
+    @keyframes sparkleTwinkle {
+      0%, 100% {
+        opacity: 0;
+        transform: translateY(4px) scale(0.7) rotate(0deg);
+      }
+      25% {
+        opacity: 1;
+        transform: translateY(0) scale(1) rotate(10deg);
+      }
+      50% {
+        opacity: 0.8;
+        transform: translateY(-4px) scale(1.15) rotate(-8deg);
+      }
+      75% {
+        opacity: 0.35;
+        transform: translateY(-7px) scale(0.82) rotate(6deg);
+      }
+    }
+
+    @media (max-width: 1100px) {
+      .poem-columns {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 980px) {
+      .site-shell,
+      .book-page {
+        grid-template-columns: 1fr;
+      }
+
+      .content-panel {
+        min-height: 42vh;
+        order: 2;
+      }
+
+      .slideshow-panel {
+        min-height: 58vh;
+        order: 1;
+      }
+
+      .subtitle {
+        max-width: 100%;
+      }
+
+      .manual-gallery {
+        min-height: 420px;
+      }
+    }
+
+    @media (max-width: 640px) {
+      body {
+        padding: 14px;
+      }
+
+      .page,
+      .site-shell,
+      .book-page {
+        min-height: calc(100vh - 28px);
+        border-radius: 24px;
+      }
+
+      .content-panel,
+      .page-left,
+      .page-right {
+        padding: 32px 22px;
+      }
+
+      .slideshow-panel {
+        min-height: 50vh;
+      }
+
+      .accent-text {
+        min-width: 7.8ch;
+      }
+
+      .manual-gallery {
+        min-height: 380px;
+      }
+
+      .quote-card,
+      .poem-box {
+        border-radius: 22px;
+      }
+
+      .quote-photo {
+        border-radius: 18px;
+      }
+
+      .quote-caption {
+        min-height: auto;
+      }
+    }
+
+    /* ===== PAGE 4 : SONG CARDS ===== */
+    .songs-page {
+      min-height: calc(100vh - 48px);
+      display: grid;
+      grid-template-columns: 0.85fr 1.55fr;
+      border-radius: 32px;
+      overflow: hidden;
+      background: rgba(255,255,255,0.42);
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(255,255,255,0.6);
+    }
+
+    .songs-intro {
+      position: relative;
+      padding: 42px 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(180deg, rgba(182, 226, 255, 0.95), rgba(116, 188, 255, 0.88));
+    }
+
+    .songs-intro::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at top left, rgba(255,255,255,0.58), transparent 30%),
+        radial-gradient(circle at bottom right, rgba(47,107,255,0.18), transparent 28%);
+      pointer-events: none;
+    }
+
+    .songs-intro-box {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 420px;
+      background: rgba(255,255,255,0.38);
+      border: 1px solid rgba(47,107,255,0.14);
+      border-radius: 28px;
+      padding: 28px 24px;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 14px 32px rgba(47,107,255,0.08);
+      text-align: center;
+    }
+
+    .songs-title {
+      margin: 0 0 14px;
+      font-size: clamp(1.9rem, 3.5vw, 3rem);
+      line-height: 1.02;
+      color: var(--deep-blue);
+    }
+
+    .songs-copy {
+      margin: 0;
+      font-size: 1rem;
+      line-height: 1.72;
+      color: #1f4f88;
+    }
+
+    .songs-note {
+      margin-top: 18px;
+      padding: 16px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.38);
+      border: 1px solid rgba(47,107,255,0.1);
+    }
+
+    .songs-note p {
+      margin: 0;
+      line-height: 1.7;
+      color: #33649f;
+      font-size: 0.95rem;
+    }
+
+    .songs-grid-panel {
+      position: relative;
+      padding: 30px 26px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(180deg, rgba(223, 244, 255, 0.7), rgba(135, 206, 255, 0.62));
+    }
+
+    .songs-grid-panel::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 20% 20%, rgba(255,255,255,0.2), transparent 20%),
+        radial-gradient(circle at 80% 75%, rgba(47,107,255,0.12), transparent 24%);
+      pointer-events: none;
+    }
+
+    .songs-grid {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 980px;
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 16px;
+      perspective: 1200px;
+    }
+
+    .song-card {
+      background: none;
+      border: none;
+      padding: 0;
+      cursor: pointer;
+      perspective: 1200px;
+      height: 190px;
+    }
+
+    .song-card-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      transition: transform 0.7s ease;
+      transform-style: preserve-3d;
+    }
+
+    .song-card.flipped .song-card-inner {
+      transform: rotateY(180deg);
+    }
+
+    .song-card-front,
+    .song-card-back {
+      position: absolute;
+      inset: 0;
+      border-radius: 24px;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+      box-shadow: 0 14px 30px rgba(47,107,255,0.08);
+      border: 1px solid rgba(47,107,255,0.12);
+      overflow: hidden;
+    }
+
+    .song-card-front {
+      background: linear-gradient(180deg, rgba(255,255,255,0.56), rgba(223,244,255,0.72));
+      color: var(--deep-blue);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 18px;
+      font-size: 1rem;
+      font-weight: 800;
+      line-height: 1.45;
+      transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+    }
+
+    .song-card-front::before {
+      content: "";
+      position: absolute;
+      width: 140px;
+      height: 140px;
+      right: -40px;
+      top: -40px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(93,184,255,0.2), transparent 70%);
+      pointer-events: none;
+    }
+
+    .song-card:hover .song-card-front {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 36px rgba(47,107,255,0.13);
+      border-color: rgba(47,107,255,0.2);
+    }
+
+    .song-card-back {
+      background: linear-gradient(180deg, rgba(93,184,255,0.18), rgba(47,107,255,0.18)), rgba(255,255,255,0.82);
+      transform: rotateY(180deg);
+      padding: 18px 16px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      text-align: center;
+    }
+
+    .song-card-back h3 {
+      margin: 0 0 8px;
+      color: var(--blue);
+      font-size: 1rem;
+    }
+
+    .song-card-back p {
+      margin: 0;
+      color: #24558f;
+      font-size: 0.88rem;
+      line-height: 1.55;
+    }
+
+    .song-card.active-song .song-card-front,
+    .song-card.active-song .song-card-back {
+      box-shadow: 0 0 0 1px rgba(47,107,255,0.25), 0 18px 38px rgba(47,107,255,0.18);
+    }
+
+    @media (max-width: 1200px) {
+      .songs-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 980px) {
+      .songs-page {
+        grid-template-columns: 1fr;
+      }
+
+      .songs-intro-box {
+        max-width: 100%;
+      }
+
+      .songs-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 640px) {
+      .songs-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .song-card {
+        height: 170px;
+      }
+    }
+
+    /* ===== PAGE 4 & 5 NAV ===== */
+    .page4-nav {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      padding: 18px 0;
+      margin-top: 10px;
+    }
+
+    .page4-nav .btn {
+      min-width: 140px;
+      background: rgba(47, 107, 255, 0.16);
+      color: #1b4fd6;
+      border: 1px solid rgba(47, 107, 255, 0.5);
+      box-shadow: none;
+    }
+
+    .page4-nav .btn:hover {
+      background: rgba(47, 107, 255, 0.26);
+    }
+
+    /* ===== PAGE 5 : MEMORIES ===== */
+    .memory-page {
+      min-height: calc(100vh - 48px);
+      display: grid;
+      grid-template-columns: 1.2fr 0.95fr;
+      border-radius: 32px;
+      overflow: hidden;
+      background: rgba(255,255,255,0.42);
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(255,255,255,0.6);
+    }
+
+    .memory-gallery-panel {
+      position: relative;
+      padding: 34px 26px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(180deg, rgba(191, 232, 255, 0.82), rgba(135, 206, 255, 0.72));
+    }
+
+    .memory-gallery-panel::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(255,255,255,0.14), rgba(47,107,255,0.08));
+      pointer-events: none;
+    }
+
+    .memory-gallery-center {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 720px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .memory-gallery-title {
+      margin: 0;
+      text-align: center;
+      color: var(--deep-blue);
+      font-size: 1.35rem;
+    }
+
+    .memory-gallery-subtitle {
+      margin: 8px 0 18px;
+      text-align: center;
+      color: #2d619f;
+      font-size: 0.96rem;
+    }
+
+    .memory-gallery-card {
+      width: 100%;
+      max-width: 640px;
+      background: rgba(255,255,255,0.52);
+      border: 1px solid rgba(47,107,255,0.12);
+      border-radius: 28px;
+      padding: 18px;
+      box-shadow: 0 16px 36px rgba(47,107,255,0.1);
+      backdrop-filter: blur(10px);
+    }
+
+    .memory-gallery-photo {
+      width: 100%;
+      border-radius: 22px;
+      overflow: hidden;
+      background: rgba(255,255,255,0.35);
+      aspect-ratio: 16 / 10;
+      position: relative;
+    }
+
+    .memory-gallery-photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+      background: linear-gradient(180deg, rgba(255,255,255,0.24), rgba(135,206,255,0.18));
+    }
+
+    .memory-nav {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 22%;
+      border: none;
+      background: transparent;
+      color: rgba(16, 50, 95, 0.55);
+      font-size: 2.4rem;
+      cursor: pointer;
+      z-index: 2;
+      transition: background 0.2s ease, color 0.2s ease;
+      display: flex;
+      align-items: center;
+    }
+
+    .memory-nav:hover {
+      background: rgba(255,255,255,0.08);
+      color: rgba(16, 50, 95, 0.9);
+    }
+
+    .memory-nav.prev {
+      left: 0;
+      justify-content: flex-start;
+      padding-left: 10px;
+    }
+
+    .memory-nav.next {
+      right: 0;
+      justify-content: flex-end;
+      padding-right: 10px;
+    }
+
+    .memory-caption {
+      margin: 14px 8px 2px;
+      text-align: center;
+      color: #24558f;
+      font-size: 0.95rem;
+      line-height: 1.6;
+      min-height: 52px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .memory-dots {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 16px;
+      flex-wrap: wrap;
+    }
+
+    .memory-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      border: none;
+      background: rgba(47,107,255,0.24);
+      cursor: pointer;
+      transition: transform 0.2s ease, background 0.2s ease;
+    }
+
+    .memory-dot.active {
+      background: var(--blue);
+      transform: scale(1.15);
+    }
+
+    .memory-message-panel {
+      position: relative;
+      padding: 42px 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(180deg, rgba(223, 244, 255, 0.96), rgba(176, 226, 255, 0.92));
+    }
+
+    .memory-message-panel::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at top left, rgba(255,255,255,0.58), transparent 30%),
+        radial-gradient(circle at bottom right, rgba(47,107,255,0.14), transparent 28%);
+      pointer-events: none;
+    }
+
+    .memory-message-box {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 460px;
+      background: rgba(255,255,255,0.42);
+      border: 1px solid rgba(47,107,255,0.12);
+      border-radius: 28px;
+      padding: 20px 18px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 14px 32px rgba(47,107,255,0.08);
+      overflow-y: auto;
+      max-height: calc(100vh - 100px);
+    }
+
+    .memory-title {
+      margin: 0 0 12px;
+      font-size: clamp(1.4rem, 2.5vw, 1.9rem);
+      line-height: 1.1;
+      color: var(--deep-blue);
+    }
+
+    .memory-letter p {
+      margin: 0 0 10px;
+      color: #1f4f88;
+      font-size: 0.88rem;
+      line-height: 1.55;
+    }
+
+    .memory-letter p:last-child {
+      margin-bottom: 0;
+    }
+
+    /* ===== PAGE 6 : FINAL LETTER ===== */
+    .final-page {
+      min-height: calc(100vh - 48px);
+    }
+
+    .final-shell {
+      position: relative;
+      min-height: calc(100vh - 48px);
+      border-radius: 32px;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 24px;
+      background:
+        radial-gradient(circle at 20% 20%, rgba(255,255,255,0.2), transparent 22%),
+        radial-gradient(circle at 80% 75%, rgba(47,107,255,0.12), transparent 24%),
+        linear-gradient(180deg, rgba(223,244,255,0.84), rgba(135,206,255,0.72));
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(255,255,255,0.6);
+    }
+
+    .final-glow {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(60px);
+      pointer-events: none;
+      opacity: 0.55;
+    }
+
+    .final-glow-1 {
+      width: 280px;
+      height: 280px;
+      left: 6%;
+      top: 8%;
+      background: rgba(93,184,255,0.22);
+    }
+
+    .final-glow-2 {
+      width: 320px;
+      height: 320px;
+      right: 8%;
+      bottom: 10%;
+      background: rgba(47,107,255,0.16);
+    }
+
+    .final-card {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 860px;
+      background: rgba(255,255,255,0.48);
+      border: 1px solid rgba(47,107,255,0.12);
+      border-radius: 32px;
+      padding: 36px 34px 30px;
+      backdrop-filter: blur(14px);
+      box-shadow: 0 18px 42px rgba(47,107,255,0.1);
+      text-align: center;
+    }
+
+    .final-title {
+      margin: 0 0 18px;
+      font-size: clamp(2rem, 4vw, 3.4rem);
+      line-height: 1.02;
+      color: var(--deep-blue);
+    }
+
+    .final-letter {
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    .final-letter p {
+      margin: 0 0 16px;
+      color: #1f4f88;
+      font-size: 1rem;
+      line-height: 1.78;
+    }
+
+    .final-lines {
+      margin-top: 10px;
+    }
+
+    .final-line {
+      margin: 0;
+      font-size: 1.08rem;
+      line-height: 1.7;
+    }
+
+    .final-line.soft {
+      color: #3a6ea7;
+      font-style: italic;
+    }
+
+    .final-line.glow-line {
+      margin-top: 4px;
+      color: var(--blue);
+      font-weight: 800;
+      text-shadow: 0 0 16px rgba(47,107,255,0.18);
+    }
+
+    .final-song-box {
+      max-width: 520px;
+      margin: 24px auto 0;
+      padding: 18px 18px 16px;
+      border-radius: 22px;
+      background: rgba(255,255,255,0.4);
+      border: 1px solid rgba(47,107,255,0.1);
+      box-shadow: 0 10px 24px rgba(47,107,255,0.07);
+    }
+
+    .final-song-label {
+      margin: 0 0 6px;
+      font-size: 0.76rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      font-weight: 800;
+      color: #5b83b5;
+    }
+
+    .final-song-title {
+      margin: 0;
+      font-size: 1.32rem;
+      font-weight: 800;
+      color: var(--blue);
+    }
+
+    .final-song-note {
+      margin: 8px 0 0;
+      color: #2b5d96;
+      font-size: 0.95rem;
+      line-height: 1.65;
+    }
+
+    .final-actions {
+      margin-top: 24px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .final-footer {
+      margin: 20px 0 0;
+      color: #4f79ab;
+      font-size: 0.9rem;
+      opacity: 0.95;
+    }
+
+    @media (max-width: 640px) {
+      .final-shell {
+        border-radius: 24px;
+        padding: 20px 14px;
+      }
+
+      .final-card {
+        border-radius: 24px;
+        padding: 26px 20px 22px;
+      }
+    }
+
+    @media (max-width: 980px) {
+      .memory-page {
+        grid-template-columns: 1fr;
+      }
+
+      .memory-message-box {
+        max-width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <section class="page" id="page1">
+    <main class="site-shell">
+      <section class="content-panel">
+        <div class="content-inner">
+          <p class="eyebrow">A Billie Eilish-inspired Birthday Gift</p>
+          <h1>
+            Happy Birthday,<br>
+            <span class="accent accent-special" id="nameEffect" data-text="Frelynnn!">
+              <span class="accent-text" id="typedName"></span>
+              <span class="sparkles">
+                <span class="sparkle s1">✦</span>
+                <span class="sparkle s2">✦</span>
+                <span class="sparkle s3">✦</span>
+                <span class="sparkle s4">✦</span>
+                <span class="sparkle s5">✦</span>
+              </span>
+            </span>
+          </h1>
+          <p class="subtitle">
+            A soft blue world of music, memories, favorite eras, and little surprises — made just for you.
+          </p>
+
+          <div class="button-row">
+            <button class="btn btn-primary" id="startBtn" type="button">Start</button>
+          </div>
+
+          <div class="music-player" aria-label="Music player">
+            <p class="player-label">Now Playing</p>
+            <p class="track-title" id="trackTitle">Billie Eilish - CHIHIRO.mp3</p>
+            <p class="track-subtitle" id="trackSubtitle">Billie birthday playlist</p>
+
+            <div class="progress-wrap">
+              <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+              </div>
+              <div class="time-row">
+                <span id="currentTime">0:00</span>
+                <span id="duration">0:00</span>
+              </div>
+            </div>
+
+            <div class="player-controls">
+              <button class="control-btn" id="prevBtn" type="button" aria-label="Previous track">⏮</button>
+              <button class="control-btn main" id="playPauseBtn" type="button" aria-label="Play or pause">▶</button>
+              <button class="control-btn" id="nextBtn" type="button" aria-label="Next track">⏭</button>
+            </div>
+
+            <p class="playlist-note">First <strong>ENJOY</strong> your Favorite Tracks!</p>
+          </div>
+
+          <p class="mini-note">Click Start or Play to begin the surprise ✦</p>
+        </div>
+      </section>
+
+      <section class="slideshow-panel" aria-label="Billie slideshow background">
+        <div class="bg-slide"><img src="images/01.jpg" alt="Billie slideshow image 1"></div>
+        <div class="bg-slide"><img src="images/02.jpg" alt="Billie slideshow image 2"></div>
+        <div class="bg-slide"><img src="images/03.jpg" alt="Billie slideshow image 3"></div>
+        <div class="bg-slide"><img src="images/04.jpg" alt="Billie slideshow image 4"></div>
+        <div class="bg-slide"><img src="images/05.jpg" alt="Billie slideshow image 5"></div>
+      </section>
+    </main>
+  </section>
+
+  <section class="page" id="page2">
+    <main class="book-page">
+      <section class="page-left">
+        <div class="poem-box">
+          <h2 class="poem-title">The Coffee That is You</h2>
+
+          <div class="poem-columns">
+            <div class="poem-column">
+              <p class="poem-stanza">if coffee
+comes in many forms</p>
+
+              <p class="poem-stanza">then you are each one
+we keep close</p>
+
+              <p class="poem-stanza">you are the morning brew
+steady, simple
+the kind that starts our days right</p>
+
+              <p class="poem-stanza">you are the latte
+soft and warm
+like the comfort
+we never have to ask for</p>
+            <p class="poem-stanza">you are the cappuccino
+light, crazily playful
+the kind that makes
+ordinary moments feel special</p>
+            </div>
+
+            <div class="poem-column">
+              <p class="poem-stanza">you are the caramel cup 
+                we keep close
+not to keep you from the world
+but because your sweetness
+feels like home to us</p>
+
+              <p class="poem-stanza">and if the world
+ever turns cold</p>
+
+              <p class="poem-stanza">you’re the warmth
+we hold onto</p>
+
+              <p class="poem-stanza">not just like coffee
+but like a special someone
+our hearts chose ☕🤍
+
+BASAHA ANG CAPTION TANAN SA PICTURES XD</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="page-right">
+        <div class="right-center">
+          <h2 class="quotes-heading">A New Chapter at 18</h2>
+          <p class="quotes-subheading">A soft reminder that this birthday is the start of something beautiful.</p>
+
+          <div class="manual-gallery">
+            <div class="quote-card">
+              <div class="quote-photo">
+                <button class="image-nav prev" id="prevImage" type="button" aria-label="Previous image">‹</button>
+                <img id="quoteImage" src="pics/06.jpg" alt="Birthday slide 06">
+                <button class="image-nav next" id="nextImage" type="button" aria-label="Next image">›</button>
+              </div>
+
+              <p class="quote-caption" id="quoteCaption">
+                Eighteen is not pressure to be perfect — it is permission to begin, to learn, and to step into life with your own quiet strength.
+              </p>
+            </div>
+          </div>
+
+          <div class="quote-dots" id="quoteDots">
+            <button class="quote-dot active" type="button" aria-label="Show image 1"></button>
+            <button class="quote-dot" type="button" aria-label="Show image 2"></button>
+            <button class="quote-dot" type="button" aria-label="Show image 3"></button>
+            <button class="quote-dot" type="button" aria-label="Show image 4"></button>
+            <button class="quote-dot" type="button" aria-label="Show image 5"></button>
+            <button class="quote-dot" type="button" aria-label="Show image 6"></button>
+            <button class="quote-dot" type="button" aria-label="Show image 7"></button>
+            <button class="quote-dot" type="button" aria-label="Show image 8"></button>
+            <button class="quote-dot" type="button" aria-label="Show image 9"></button>
+            <button class="quote-dot" type="button" aria-label="Show image 10"></button>
+            <button class="quote-dot" type="button" aria-label="Show image 11"></button>
+            <button class="quote-dot" type="button" aria-label="Show image 12"></button>
+          </div>
+
+          <div class="page2-nav">
+            <button class="btn btn-primary" id="page2NextBtn" type="button">Next</button>
+          </div>
+        </div>
+      </section>
+    </main>
+  </section>
+
+  <section class="page" id="page3">
+    <main class="albums-page">
+
+      <!-- LEFT PANEL -->
+      <section class="albums-intro">
+        <div class="albums-intro-box">
+          <p class="section-kicker">Part 3 • Billie's Eras</p>
+          <h2 class="albums-title">The Albums That Stay</h2>
+          <p class="albums-copy">Some songs don't just play — they stay. They become memories, comfort, chaos, healing, and pieces of growing up.</p>
+
+          <div class="albums-note">
+            <p>Each album carries its own world — raw feelings, strange beauty, heartbreak, growth, and the kind of sound that lingers long after the song ends.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- RIGHT PANEL -->
+      <section class="albums-grid-panel">
+        <div class="albums-grid">
+
+          <!-- 1 -->
+          <article class="album-card">
+            <div class="album-glow"></div>
+
+            <div class="album-cover">
+              <img src="album cover/dont smile at me.jpg">
+            </div>
+
+            <p class="album-year">2017</p>
+            <h3 class="album-name">dont smile at me</h3>
+
+            <p class="album-mood">
+              <span>raw</span>
+              <span>intimate</span>
+              <span>quiet heartbreak</span>
+            </p>
+
+            <p class="album-description">
+              A soft ache wrapped in honesty — the kind of music that feels close,
+              almost like a secret being whispered.
+            </p>
+
+            <div class="album-favorite">
+              <span class="favorite-label">Favorite track:</span>
+              <span class="favorite-track">ocean eyes</span>
+            </div>
+          </article>
+
+          <!-- 2 -->
+          <article class="album-card">
+            <div class="album-glow"></div>
+
+            <div class="album-cover">
+              <img src="album cover/asleep.jpg">
+            </div>
+
+            <p class="album-year">2019</p>
+            <h3 class="album-name">WHEN WE ALL FALL ASLEEP, WHERE DO WE GO?</h3>
+
+            <p class="album-mood">
+              <span>dark</span>
+              <span>strange</span>
+              <span>iconic</span>
+            </p>
+
+            <p class="album-description">
+              Bold, eerie, unforgettable — an era that feels playful and unsettling
+              at the same time, like stepping into a dream that never behaves normally.
+            </p>
+
+            <div class="album-favorite">
+              <span class="favorite-label">Favorite track:</span>
+              <span class="favorite-track">wish you were gay</span>
+            </div>
+          </article>
+
+          <!-- 3 -->
+          <article class="album-card">
+            <div class="album-glow"></div>
+
+            <div class="album-cover">
+              <img src="album cover/Happier Than Ever.jpg">
+            </div>
+
+            <p class="album-year">2021</p>
+            <h3 class="album-name">Happier Than Ever</h3>
+
+            <p class="album-mood">
+              <span>emotional</span>
+              <span>explosive</span>
+              <span>growing up</span>
+            </p>
+
+            <p class="album-description">
+              Tender and sharp all at once — an era that feels like learning how to
+              carry pain, truth, and strength without losing yourself.
+            </p>
+
+            <div class="album-favorite">
+              <span class="favorite-label">Favorite track:</span>
+              <span class="favorite-track">The 30th</span>
+            </div>
+          </article>
+
+          <!-- 4 -->
+          <article class="album-card">
+            <div class="album-glow"></div>
+
+            <div class="album-cover">
+              <img src="album cover/HIT ME HARD AND SOFT.jpg">
+            </div>
+
+            <p class="album-year">2024</p>
+            <h3 class="album-name">HIT ME HARD AND SOFT</h3>
+
+            <p class="album-mood">
+              <span>vulnerable</span>
+              <span>cinematic</span>
+              <span>deep</span>
+            </p>
+
+            <p class="album-description">
+              Gentle but overwhelming, intimate but vast — this era feels like emotion
+              stretched across a whole sky.
+            </p>
+
+            <div class="album-favorite">
+              <span class="favorite-label">Favorite track:</span>
+              <span class="favorite-track">CHIHIRO</span>
+            </div>
+          </article>
+
+        </div>
+      </section>
+
+      <div class="page3-nav">
+        <button class="btn btn-primary" id="page3NextBtn" type="button">Next</button>
+      </div>
+
+    </main>
+  </section>
+
+  <section class="page" id="page4">
+    <main class="songs-page">
+      <section class="songs-intro">
+        <div class="songs-intro-box">
+          <p class="section-kicker">Part 4 • Songs For You</p>
+          <h2 class="songs-title">Dedicated Songs for You</h2>
+          <p class="songs-copy">
+            Some songs feel like comfort, some feel like strength,
+            and some feel like pieces of who you are.
+          </p>
+
+          <div class="songs-note">
+            <p>
+              Click a card to flip it and play the song.
+              Every card is a little reminder of a side of you. 
+              HOPEFULLY THIS HELPS YOU IN SOME WAY, BUT IF NOT, JUST ENJOY THE MUSIC AND
+              ABRIHI TANAN!
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="songs-grid-panel">
+        <div class="songs-grid">
+
+          <button class="song-card" type="button" data-song="ocean eyes.mp3">
+            <div class="song-card-inner">
+              <div class="song-card-front">When you need comfort</div>
+              <div class="song-card-back">
+                <h3>ocean eyes</h3>
+                <p>For the quiet moments when everything feels too much, and you just need to breathe.</p>
+              </div>
+            </div>
+          </button>
+
+          <button class="song-card" type="button" data-song="everything i wanted.mp3">
+            <div class="song-card-inner">
+              <div class="song-card-front">The way you comfort people</div>
+              <div class="song-card-back">
+                <h3>everything i wanted</h3>
+                <p>You make people feel safe without even trying.</p>
+              </div>
+            </div>
+          </button>
+
+          <button class="song-card" type="button" data-song="i love you.mp3">
+            <div class="song-card-inner">
+              <div class="song-card-front">Your soft side</div>
+              <div class="song-card-back">
+                <h3>i love you</h3>
+                <p>The version of you that feels deeply, even when you don't say it out loud.</p>
+              </div>
+            </div>
+          </button>
+
+          <button class="song-card" type="button" data-song="listen before i go.mp3">
+            <div class="song-card-inner">
+              <div class="song-card-front">When you feel overwhelmed</div>
+              <div class="song-card-back">
+                <h3>listen before i go</h3>
+                <p>For the nights that feel heavier than they should.</p>
+              </div>
+            </div>
+          </button>
+
+          <button class="song-card" type="button" data-song="The 30th.mp3">
+            <div class="song-card-inner">
+              <div class="song-card-front">When everything feels too real</div>
+              <div class="song-card-back">
+                <h3>The 30th</h3>
+                <p>Some feelings don't fade — they stay, and that's okay.</p>
+              </div>
+            </div>
+          </button>
+
+          <button class="song-card" type="button" data-song="idontwannabeyouanymore.mp3">
+            <div class="song-card-inner">
+              <div class="song-card-front">The thoughts you don't say</div>
+              <div class="song-card-back">
+                <h3>idontwannabeyouanymore</h3>
+                <p>Even when you doubt yourself, you're still enough.</p>
+              </div>
+            </div>
+          </button>
+
+          <button class="song-card" type="button" data-song="my future.mp3">
+            <div class="song-card-inner">
+              <div class="song-card-front">When you're lost</div>
+              <div class="song-card-back">
+                <h3>my future</h3>
+                <p>You don't have to figure everything out right now.</p>
+              </div>
+            </div>
+          </button>
+
+          <button class="song-card" type="button" data-song="Happier Than Ever.mp3">
+            <div class="song-card-inner">
+              <div class="song-card-front">The version of you that's growing</div>
+              <div class="song-card-back">
+                <h3>Happier Than Ever</h3>
+                <p>You're learning, changing, and becoming something stronger.</p>
+              </div>
+            </div>
+          </button>
+
+          <button class="song-card" type="button" data-song="you should see me in a crown.mp3">
+            <div class="song-card-inner">
+              <div class="song-card-front">When you need strength</div>
+              <div class="song-card-back">
+                <h3>you should see me in a crown</h3>
+                <p>You're stronger than you think — always have been.</p>
+              </div>
+            </div>
+          </button>
+
+          <button class="song-card" type="button" data-song="bad guy.mp3">
+            <div class="song-card-inner">
+              <div class="song-card-front">Your confidence</div>
+              <div class="song-card-back">
+                <h3>bad guy</h3>
+                <p>That quiet boldness you carry without needing to prove anything.</p>
+              </div>
+            </div>
+          </button>
+
+          <button class="song-card" type="button" data-song="Therefore I Am.mp3">
+            <div class="song-card-inner">
+              <div class="song-card-front">When you're done with everything</div>
+              <div class="song-card-back">
+                <h3>Therefore I Am</h3>
+                <p>You don't owe anyone an explanation.</p>
+              </div>
+            </div>
+          </button>
+
+          <button class="song-card" type="button" data-song="NDA.mp3">
+            <div class="song-card-inner">
+              <div class="song-card-front">The side of you that stands up</div>
+              <div class="song-card-back">
+                <h3>NDA</h3>
+                <p>You know your worth — even when the world doesn't.</p>
+              </div>
+            </div>
+          </button>
+
+          <button class="song-card" type="button" data-song="CHIHIRO.mp3">
+            <div class="song-card-inner">
+              <div class="song-card-front">The way you see the world</div>
+              <div class="song-card-back">
+                <h3>CHIHIRO</h3>
+                <p>You feel things differently — deeper, quieter, more beautifully.</p>
+              </div>
+            </div>
+          </button>
+
+          <button class="song-card" type="button" data-song="BIRDS OF A FEATHER.mp3">
+            <div class="song-card-inner">
+              <div class="song-card-front">Your peaceful moments</div>
+              <div class="song-card-back">
+                <h3>BIRDS OF A FEATHER</h3>
+                <p>The calm, gentle version of you that feels like home.</p>
+              </div>
+            </div>
+          </button>
+
+          <button class="song-card" type="button" data-song="L AMOUR DE MA VIE.mp3">
+            <div class="song-card-inner">
+              <div class="song-card-front">The version of you I see</div>
+              <div class="song-card-back">
+                <h3>L'AMOUR DE MA VIE</h3>
+                <p>Soft, strong, and unforgettable in ways you don't even realize.</p>
+              </div>
+            </div>
+          </button>
+
+          <button class="song-card" type="button" data-song="TV.mp3">
+            <div class="song-card-inner">
+              <div class="song-card-front">When you just want to exist</div>
+              <div class="song-card-back">
+                <h3>TV</h3>
+                <p>No expectations. No pressure. Just you, being you.</p>
+              </div>
+            </div>
+          </button>
+
+        </div>
+      </section>
+
+      <div class="page4-nav">
+        <button class="btn btn-primary" id="page4NextBtn" type="button">Next</button>
+      </div>
+    </main>
+  </section>
+
+  <section class="page" id="page5">
+    <main class="memory-page">
+      <section class="memory-gallery-panel">
+        <div class="memory-gallery-center">
+          <p class="section-kicker">Part 5 • Memories</p>
+          <h2 class="memory-gallery-title">A Little Gallery</h2>
+          <p class="memory-gallery-subtitle">
+            Just some moments I wanted to keep here.
+          </p>
+
+          <div class="memory-gallery-card">
+            <div class="memory-gallery-photo">
+              <button class="memory-nav prev" id="memoryPrevBtn" type="button" aria-label="Previous photo">‹</button>
+              <img id="memoryImage" src="message/01.jpg" alt="Memory photo 01">
+              <button class="memory-nav next" id="memoryNextBtn" type="button" aria-label="Next photo">›</button>
+            </div>
+
+            <p class="memory-caption" id="memoryCaption">
+              first city meet match kontra mong shine
+            </p>
+          </div>
+
+          <div class="memory-dots" id="memoryDots">
+            <button class="memory-dot active" type="button" aria-label="Show photo 1"></button>
+            <button class="memory-dot" type="button" aria-label="Show photo 2"></button>
+            <button class="memory-dot" type="button" aria-label="Show photo 3"></button>
+            <button class="memory-dot" type="button" aria-label="Show photo 4"></button>
+            <button class="memory-dot" type="button" aria-label="Show photo 5"></button>
+            <button class="memory-dot" type="button" aria-label="Show photo 6"></button>
+            <button class="memory-dot" type="button" aria-label="Show photo 7"></button>
+            <button class="memory-dot" type="button" aria-label="Show photo 8"></button>
+            <button class="memory-dot" type="button" aria-label="Show photo 9"></button>
+            <button class="memory-dot" type="button" aria-label="Show photo 10"></button>
+          </div>
+        </div>
+      </section>
+
+      <section class="memory-message-panel">
+        <div class="memory-message-box">
+          <p class="section-kicker">A Message For You</p>
+          <h2 class="memory-title">MEMORIES</h2>
+
+          <div class="memory-letter">
+            <p>
+              I first got to know you when I dragged you to a Chess City Meet because I badly
+              needed someone to compete. We needed two female players and two male players,
+              and at that time, I was still missing one player. You were still in Grade 9 then.
+            </p>
+
+            <p>
+              Since that day, you became someone who feels more like a sister to me.
+              You've helped me more than you probably think, and I'm really thankful for that.
+            </p>
+
+            <p>
+              We do not really have a picture together — just the two of us. Hahaha, it's fine.
+              So instead, I placed here some pictures of you playing chess.
+            </p>
+
+            <p>
+              I've seen you through, maybe not everything, but at least some of your struggles
+              in life, and also the things you've achieved so far. Keep going.
+
+              Basaha ang tanang Caption! XD
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <div class="page5-nav">
+        <button class="btn btn-primary" id="page5NextBtn" type="button">Next</button>
+      </div>
+
+    </main>
+  </section>
+
+  <section class="page" id="page6">
+    <main class="final-page">
+      <section class="final-shell">
+        <div class="final-glow final-glow-1"></div>
+        <div class="final-glow final-glow-2"></div>
+
+        <div class="final-card">
+          <p class="section-kicker">Part 6 • Final Letter</p>
+          <h2 class="final-title">One Last Page For You</h2>
+
+          <div class="final-letter">
+            <p>
+              Happy 18th Birthday, Frelynnn.
+            </p>
+
+            <p>
+              This little website may just be made of pages, songs, pictures, and words,
+              but behind all of it is something real — appreciation, memories, and the wish
+              that this day makes you feel how special you truly are.
+            </p>
+
+            <p>
+              You are entering a new chapter now, and I know life will not always be easy.
+              There will be days that feel light, and there will also be days that feel heavy.
+              But I hope you always remember that you do not have to carry everything alone,
+              and you do not have to have everything figured out right away.
+            </p>
+
+            <p>
+              Just keep becoming who you truly are. Keep growing, keep going, and keep believing
+              that better days will always find their way back to you.
+            </p>
+
+            <p>
+              I have seen some of your struggles, your strength, and the things you have achieved
+              so far, and I hope you know that I am proud of you. Truly.
+            </p>
+
+            <p>
+              Thank you for being someone so precious, so kind, and so unforgettable in your own way.
+            </p>
+
+            <p>
+              And no matter how busy life gets, I hope you do not forget to visit me from time to time.
+              It really helps.
+            </p>
+
+            <p>
+              Happy 18th, Frelynnn.<br>
+              With love.
+            </p>
+          </div>
+
+          <div class="final-lines">
+            <p class="final-line soft">May this new chapter be gentle with you.</p>
+            <p class="final-line glow-line">And if songs stay, I hope this does too.</p>
+          </div>
+
+          <div class="final-song-box">
+            <p class="final-song-label">One Billie song I’d recommend for you</p>
+            <p class="final-song-title">my future</p>
+            <p class="final-song-note">
+              Because you do not have to know everything right now — you just have to keep becoming.
+            </p>
+          <button class="btn btn-primary" id="playFinalSongBtn" type="button">Play this song</button>
+          <p class="final-footer">A Billie-inspired birthday gift.</p>
+        </div>
+      </section>
+    </main>
+  </section>
+
+  <button class="btn btn-primary" id="backToTopBtn" type="button" aria-label="Back to top">Back to Top</button>
+
+  <audio id="audioPlayer" preload="metadata"></audio>
+
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-trail" id="trail"></div>
+
+  <script>
+    const playlist = [
+      'assets/CHIHIRO.mp3',
+      'assets/L AMOUR DE MA VIE.mp3',
+      'assets/The 30th.mp3',
+      'assets/ocean eyes.mp3',
+      'assets/BIRDS OF A FEATHER.mp3'
+    ];
+
+    const galleryItems = [
+      {
+        image: 'pics/06.jpg',
+        alt: 'Birthday slide 06',
+        caption: 'Eighteen is not pressure to be perfect — it is permission to begin, to learn, and to step into life with your own quiet strength.'
+      },
+      {
+        image: 'pics/07.jpg',
+        alt: 'Birthday slide 07',
+        caption: 'This year reminds you that growing up does not mean losing your softness. It means carrying your heart forward with more courage.'
+      },
+      {
+        image: 'pics/08.jpg',
+        alt: 'Birthday slide 08',
+        caption: 'Turning 18 means new doors, new dreams, and new chances to become even more of the person you were always meant to be.'
+      },
+      {
+        image: 'pics/09.jpg',
+        alt: 'Birthday slide 09',
+        caption: 'You do not need every answer right now. What matters is that you keep moving with hope, kindness, and trust in yourself.'
+      },
+      {
+        image: 'pics/10.jpg',
+        alt: 'Birthday slide 10',
+        caption: 'Let 18 be your reminder that beautiful things still wait ahead of you. This is not the end of anything — it is the beginning.'
+      },
+      {
+        image: 'pics/11.jpg',
+        alt: 'Birthday slide 11',
+        caption: 'Eighteen is your reminder that growing slowly is still growing. You do not have to rush to become extraordinary — you already carry something beautiful in you.'
+      },
+      {
+        image: 'pics/12.jpg',
+        alt: 'Birthday slide 12',
+        caption: 'This new chapter is not about having it all together. It is about trusting that your heart, your dreams, and your softness are enough to guide you forward.'
+      },
+      {
+        image: 'pics/13.jpg',
+        alt: 'Birthday slide 13',
+        caption: 'Some years change everything quietly. May 18 be one of those years that teaches you how strong, loved, and full of light you truly are.'
+      },
+      {
+        image: 'pics/14.jpg',
+        alt: 'Birthday slide 14',
+        caption: 'You are stepping into a season where your voice matters even more. Be brave enough to choose yourself, protect your peace, and believe in your own future.'
+      },
+      {
+        image: 'pics/15.jpg',
+        alt: 'Birthday slide 15',
+        caption: 'Let this birthday be a beginning filled with small joys, brave choices, and the kind of memories that one day will mean everything.'
+      },
+      {
+        image: 'pics/16.jpg',
+        alt: 'Birthday slide 16',
+        caption: 'At 18, you are allowed to dream bigger, love deeper, and walk gently into the life waiting for you. The best parts of your story are still ahead.'
+      },
+      {
+        video: 'pics/01.mp4',
+        alt: 'Birthday video 01',
+        caption: `Achievements do not define who you are.
+They are only small moments, not the whole story.
+
+You are already enough — even without recognition,
+even without proving anything to the world.
+
+Just stay who you truly are,
+and grow into the person you want to become,
+at your own pace, in your own way.
+
+You don’t have to carry every burden alone.
+When things feel heavy, lean on us…
+lean on me.
+
+And no matter how far life takes you,
+don’t forget to visit me from time to time.
+
+It really helps.`
+      }
+    ];
+
+    const audio = document.getElementById('audioPlayer');
+    const startBtn = document.getElementById('startBtn');
+    const playPauseBtn = document.getElementById('playPauseBtn');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const trackTitle = document.getElementById('trackTitle');
+    const trackSubtitle = document.getElementById('trackSubtitle');
+    const progressFill = document.getElementById('progressFill');
+    const currentTimeEl = document.getElementById('currentTime');
+    const durationEl = document.getElementById('duration');
+
+    const nameEffect = document.getElementById('nameEffect');
+    const typedName = document.getElementById('typedName');
+    const finalName = 'Frelynnn!';
+
+    const quoteImage = document.getElementById('quoteImage');
+    const quoteCaption = document.getElementById('quoteCaption');
+    const prevImageBtn = document.getElementById('prevImage');
+    const nextImageBtn = document.getElementById('nextImage');
+    const quoteDots = document.querySelectorAll('.quote-dot');
+
+    const cursor = document.getElementById('cursor');
+    const trail = document.getElementById('trail');
+
+    let currentTrackIndex = 0;
+    let typeIndex = 0;
+    let currentGalleryIndex = 0;
+    let mouseX = 0;
+    let mouseY = 0;
+    let trailX = 0;
+    let trailY = 0;
+
+    function formatTime(time) {
+      if (!isFinite(time)) return '0:00';
+      const minutes = Math.floor(time / 60);
+      const seconds = Math.floor(time % 60).toString().padStart(2, '0');
+      return `${minutes}:${seconds}`;
+    }
+
+    function updateTrackInfo() {
+      const fileName = playlist[currentTrackIndex].split('/').pop();
+      trackTitle.textContent = fileName;
+      trackSubtitle.textContent = `Track ${String(currentTrackIndex + 1).padStart(2, '0')} of ${String(playlist.length).padStart(2, '0')}`;
+    }
+
+    function loadTrack(index) {
+      currentTrackIndex = (index + playlist.length) % playlist.length;
+      audio.src = playlist[currentTrackIndex];
+      updateTrackInfo();
+      progressFill.style.width = '0%';
+      currentTimeEl.textContent = '0:00';
+      durationEl.textContent = '0:00';
+    }
+
+    async function playAudio() {
+      try {
+        await audio.play();
+        playPauseBtn.textContent = '❚❚';
+      } catch (error) {
+        console.error('Playback blocked:', error);
+      }
+    }
+
+    function pauseAudio() {
+      audio.pause();
+      playPauseBtn.textContent = '▶';
+    }
+
+    function togglePlayPause() {
+      if (audio.paused) playAudio();
+      else pauseAudio();
+    }
+
+    function nextTrack(autoPlay = true) {
+      loadTrack(currentTrackIndex + 1);
+      if (autoPlay) playAudio();
+    }
+
+    function prevTrack() {
+      loadTrack(currentTrackIndex - 1);
+      playAudio();
+    }
+
+    function typeName() {
+      if (typeIndex < finalName.length) {
+        typedName.textContent += finalName.charAt(typeIndex);
+        typeIndex++;
+        setTimeout(typeName, 120);
+      } else {
+        nameEffect.classList.add('done');
+      }
+    }
+
+    function renderGallery(index) {
+      currentGalleryIndex = (index + galleryItems.length) % galleryItems.length;
+      const item = galleryItems[currentGalleryIndex];
+
+      const mediaContainer = document.querySelector('.quote-photo');
+
+      if (item.video) {
+        mediaContainer.innerHTML = `
+          <button class="image-nav prev" id="prevImage" type="button" aria-label="Previous image">‹</button>
+          <video id="quoteVideo" autoplay muted loop playsinline style="width:100%;height:100%;object-fit:contain;display:block;background:linear-gradient(180deg, rgba(255,255,255,0.24), rgba(135,206,255,0.18));">
+            <source src="${item.video}" type="video/mp4">
+          </video>
+          <button class="image-nav next" id="nextImage" type="button" aria-label="Next image">›</button>
+        `;
+      } else {
+        mediaContainer.innerHTML = `
+          <button class="image-nav prev" id="prevImage" type="button" aria-label="Previous image">‹</button>
+          <img id="quoteImage" src="${item.image}" alt="${item.alt}">
+          <button class="image-nav next" id="nextImage" type="button" aria-label="Next image">›</button>
+        `;
+      }
+
+      quoteCaption.textContent = item.caption;
+
+      quoteDots.forEach((dot, i) => {
+        dot.classList.toggle('active', i === currentGalleryIndex);
+      });
+
+      document.getElementById('prevImage').addEventListener('click', () => renderGallery(currentGalleryIndex - 1));
+      document.getElementById('nextImage').addEventListener('click', () => renderGallery(currentGalleryIndex + 1));
+    }
+
+    quoteDots.forEach((dot, index) => {
+      dot.addEventListener('click', () => renderGallery(index));
+    });
+
+    prevImageBtn.addEventListener('click', () => renderGallery(currentGalleryIndex - 1));
+    nextImageBtn.addEventListener('click', () => renderGallery(currentGalleryIndex + 1));
+
+    const page2NextBtn = document.getElementById('page2NextBtn');
+
+    startBtn.addEventListener('click', () => {
+      playAudio();
+      const page2 = document.getElementById('page2');
+      page2.classList.add('show');
+      page2.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+
+    page2NextBtn.addEventListener('click', () => {
+      const page3 = document.getElementById('page3');
+      page3.classList.add('show');
+      page3.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+
+    const page3NextBtn = document.getElementById('page3NextBtn');
+    page3NextBtn.addEventListener('click', () => {
+      const page4 = document.getElementById('page4');
+      page4.classList.add('show');
+      page4.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+
+    const songCards = document.querySelectorAll('.song-card');
+
+    function playSpecificSong(fileName) {
+      const songPath = `assets/${fileName}`;
+      audio.src = songPath;
+      trackTitle.textContent = fileName.replace('.mp3', '');
+      trackSubtitle.textContent = 'Frelynnn\'s Billie favorites';
+      progressFill.style.width = '0%';
+      currentTimeEl.textContent = '0:00';
+      durationEl.textContent = '0:00';
+      playAudio();
+    }
+
+    songCards.forEach((card) => {
+      card.addEventListener('click', () => {
+        const alreadyFlipped = card.classList.contains('flipped');
+        const songFile = card.dataset.song;
+
+        songCards.forEach((other) => {
+          other.classList.remove('flipped', 'active-song');
+        });
+
+        if (!alreadyFlipped) {
+          card.classList.add('flipped', 'active-song');
+          playSpecificSong(songFile);
+        }
+      });
+    });
+
+    const page4NextBtn = document.getElementById('page4NextBtn');
+    page4NextBtn.addEventListener('click', () => {
+      const page5 = document.getElementById('page5');
+      page5.classList.add('show');
+      page5.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+
+    const page5NextBtn = document.getElementById('page5NextBtn');
+    page5NextBtn.addEventListener('click', () => {
+      const page6 = document.getElementById('page6');
+      page6.classList.add('show');
+      page6.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+
+    const memoryImage = document.getElementById('memoryImage');
+    const memoryCaption = document.getElementById('memoryCaption');
+    const memoryPrevBtn = document.getElementById('memoryPrevBtn');
+    const memoryNextBtn = document.getElementById('memoryNextBtn');
+    const memoryDots = document.querySelectorAll('.memory-dot');
+
+    const memoryItems = [
+      {
+        image: 'message/01.jpg',
+        caption: 'first city meet match kontra mong shine'
+      },
+      {
+        image: 'message/02.jpg',
+        caption: '2nd match I think'
+      },
+      {
+        image: 'message/03.jpg',
+        caption: '2nd day match'
+      },
+      {
+        image: 'message/04.jpg',
+        caption: 'nakamedal na jud'
+      },
+      {
+        image: 'message/05.jpg',
+        caption: 'STEM Resilience Camp'
+      },
+      {
+        image: 'message/06.jpg',
+        caption: 'naa si crushiecakes tapad abtik kaayo muanswer'
+      },
+      {
+        image: 'message/07.jpg',
+        caption: 'ako ang nananghid XD'
+      },
+      {
+        image: 'message/08.jpg',
+        caption: 'last City Meet diay ni nimu :('
+      },
+      {
+        image: 'message/09.jpg',
+        caption: 'cosplayers groupie'
+      },
+      {
+        image: 'message/10.jpg',
+        caption: 'dawat og award but I know guol kaayo ka diri'
+      }
+    ];
+
+    let currentMemoryIndex = 0;
+
+    function renderMemory(index) {
+      currentMemoryIndex = (index + memoryItems.length) % memoryItems.length;
+      const item = memoryItems[currentMemoryIndex];
+
+      memoryImage.src = item.image;
+      memoryImage.alt = `Memory photo ${String(currentMemoryIndex + 1).padStart(2, '0')}`;
+      memoryCaption.textContent = item.caption;
+
+      memoryDots.forEach((dot, i) => {
+        dot.classList.toggle('active', i === currentMemoryIndex);
+      });
+    }
+
+    memoryPrevBtn.addEventListener('click', () => renderMemory(currentMemoryIndex - 1));
+    memoryNextBtn.addEventListener('click', () => renderMemory(currentMemoryIndex + 1));
+
+    memoryDots.forEach((dot, index) => {
+      dot.addEventListener('click', () => renderMemory(index));
+    });
+
+    renderMemory(0);
+
+    const replayBtn = document.getElementById('replayBtn');
+    const playFinalSongBtn = document.getElementById('playFinalSongBtn');
+    const page6 = document.getElementById('page6');
+
+    if (replayBtn) {
+      replayBtn.addEventListener('click', () => {
+        const page1 = document.getElementById('page1');
+        page1.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    }
+
+    if (playFinalSongBtn) {
+      playFinalSongBtn.addEventListener('click', () => {
+        playFinalSong();
+      });
+    }
+
+    const backToTopBtn = document.getElementById('backToTopBtn');
+    if (backToTopBtn) {
+      backToTopBtn.addEventListener('click', () => {
+        document.getElementById('page1').scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    }
+
+    function playFinalSong() {
+      const finalSong = 'assets/my future.mp3';
+
+      if (!audio.src.includes(finalSong)) {
+        audio.src = finalSong;
+        trackTitle.textContent = 'my future';
+        trackSubtitle.textContent = 'For you';
+        progressFill.style.width = '0%';
+        currentTimeEl.textContent = '0:00';
+        durationEl.textContent = '0:00';
+      }
+
+      playAudio();
+    }
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          playFinalSong();
+        }
+      });
+    }, { threshold: 0.6 });
+
+    if (page6) {
+      observer.observe(page6);
+    }
+
+    playPauseBtn.addEventListener('click', togglePlayPause);
+    nextBtn.addEventListener('click', () => nextTrack(true));
+    prevBtn.addEventListener('click', prevTrack);
+
+    audio.addEventListener('loadedmetadata', () => {
+      durationEl.textContent = formatTime(audio.duration);
+    });
+
+    audio.addEventListener('timeupdate', () => {
+      currentTimeEl.textContent = formatTime(audio.currentTime);
+      if (audio.duration) {
+        const progress = (audio.currentTime / audio.duration) * 100;
+        progressFill.style.width = `${progress}%`;
+      }
+    });
+
+    audio.addEventListener('ended', () => nextTrack(true));
+    audio.addEventListener('pause', () => { playPauseBtn.textContent = '▶'; });
+    audio.addEventListener('play', () => { playPauseBtn.textContent = '❚❚'; });
+
+    nameEffect.addEventListener('mousemove', (e) => {
+      const rect = nameEffect.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      const rotateY = ((x / rect.width) - 0.5) * 14;
+      const rotateX = ((y / rect.height) - 0.5) * -10;
+      nameEffect.style.transform = `perspective(500px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.04)`;
+      nameEffect.style.filter = 'drop-shadow(0 0 14px rgba(47, 107, 255, 0.32))';
+    });
+
+    nameEffect.addEventListener('mouseleave', () => {
+      nameEffect.style.transform = '';
+      nameEffect.style.filter = '';
+    });
+
+    document.addEventListener('mousemove', (e) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+      cursor.style.left = mouseX + 'px';
+      cursor.style.top = mouseY + 'px';
+    });
+
+    function animateTrail() {
+      trailX += (mouseX - trailX) * 0.12;
+      trailY += (mouseY - trailY) * 0.12;
+      trail.style.left = trailX + 'px';
+      trail.style.top = trailY + 'px';
+      requestAnimationFrame(animateTrail);
+    }
+
+    document.addEventListener('mousedown', () => cursor.classList.add('active'));
+    document.addEventListener('mouseup', () => cursor.classList.remove('active'));
+
+    loadTrack(0);
+    renderGallery(0);
+    setTimeout(typeName, 500);
+    animateTrail();
+  </script>
+</body>
+</html>
